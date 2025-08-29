@@ -1,30 +1,120 @@
 # Jongo E-Auth
 
-*Automatically synced with your [v0.app](https://v0.app) deployments*
+This project is a Next.js application designed for employee authentication and management.
 
-[![Deployed on Vercel](https://img.shields.io/badge/Deployed%20on-Vercel-black?style=for-the-badge&logo=vercel)](https://vercel.com/priestlys-projects/v0-employee-sign-in-out-system)
-[![Built with v0](https://img.shields.io/badge/Built%20with-v0.app-black?style=for-the-badge)](https://v0.app/chat/projects/DxiVI2f6b5v)
+## Features
 
-## Overview
+*   **Firebase Authentication:** Implemented email and password authentication for admin users using Firebase Auth.
+*   **API Routes:** Dedicated API endpoint for user sign-in (`/api/auth/signin`).
 
-This repository will stay in sync with your deployed chats on [v0.app](https://v0.app).
-Any changes you make to your deployed app will be automatically pushed to this repository from [v0.app](https://v0.app).
+## Getting Started
+
+### Prerequisites
+
+*   Node.js (LTS recommended)
+*   pnpm (or npm/yarn)
+*   Firebase Project: Ensure you have a Firebase project set up with Authentication enabled (Email/Password provider).
+
+### Installation
+
+1.  Clone the repository:
+    ```bash
+    git clone <your-repo-url>
+    cd jongo-e-auth
+    ```
+2.  Install dependencies:
+    ```bash
+    pnpm install
+    ```
+3.  **Firebase Configuration:**
+    Ensure your Firebase configuration is correctly set up in `lib/firebase.ts`. The `firebaseDetails.txt` file contains the necessary details.
+
+### Running the Development Server
+
+```bash
+pnpm dev
+```
+
+Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+
+## Authentication
+
+### Admin Sign-in
+
+An API route `/api/auth/signin` is available for email and password authentication.
+
+**Example Client-Side Usage:**
+
+```typescript
+// Example: components/LoginForm.tsx
+"use client"
+
+import React, { useState } from 'react';
+
+export default function LoginForm() {
+  const [email, setEmail] = useState('');
+  const [password, setPassword] = useState('');
+  const [message, setMessage] = useState('');
+
+  const handleSubmit = async (event: React.FormEvent) => {
+    event.preventDefault();
+    setMessage('');
+
+    try {
+      const response = await fetch('/api/auth/signin', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({ email, password }),
+      });
+
+      const data = await response.json();
+
+      if (response.ok) {
+        setMessage(`Login successful! User UID: ${data.uid}`);
+        // Handle successful login (e.g., redirect, store session)
+      } else {
+        setMessage(`Login failed: ${data.message}`);
+      }
+    } catch (error) {
+      console.error('Error during login:', error);
+      setMessage('An unexpected error occurred.');
+    }
+  };
+
+  return (
+    <form onSubmit={handleSubmit}>
+      {/* Form fields */}
+    </form>
+  );
+}
+```
+
+### Next Steps for Authentication
+
+*   **Session Management:** Implement robust session management (e.g., using Firebase ID tokens, NextAuth.js, or custom cookies) to maintain user login state.
+*   **Route Protection:** Secure admin-only routes and components based on user authentication status.
+*   **Sign Out:** Add functionality for users to sign out.
+*   **User Management:** Implement features for creating and managing admin users (e.g., through a dedicated admin panel or Firebase console).
 
 ## Deployment
 
-Your project is live at:
+This project is configured for deployment on [Vercel](https://vercel.com).
 
-**[https://vercel.com/priestlys-projects/v0-employee-sign-in-out-system](https://vercel.com/priestlys-projects/v0-employee-sign-in-out-system)**
+### Deploying to Vercel
 
-## Build your app
+1.  **Connect Git Repository:** The recommended way is to connect your Git repository (GitHub, GitLab, Bitbucket) to your Vercel account. Vercel will automatically detect the Next.js project and deploy it on every push to your main branch.
+2.  **Vercel CLI:** Alternatively, you can deploy from your local machine using the Vercel CLI:
+    *   Install the Vercel CLI globally:
+        ```bash
+        npm install -g vercel
+        ```
+    *   From your project directory, run:
+        ```bash
+        vercel
+        ```
+        Follow the prompts to complete the deployment.
 
-Continue building your app on:
-
-**[https://v0.app/chat/projects/DxiVI2f6b5v](https://v0.app/chat/projects/DxiVI2f6b5v)**
-
-## How It Works
-
-1. Create and modify your project using [v0.app](https://v0.app)
-2. Deploy your chats from the v0 interface
-3. Changes are automatically pushed to this repository
-4. Vercel deploys the latest version from this repository
+---
+*This README was updated to reflect the current project setup and future development steps.*
