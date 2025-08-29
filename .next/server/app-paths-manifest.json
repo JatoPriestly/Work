@@ -1,0 +1,14 @@
+{
+  "/_not-found/page": "app/_not-found/page.js",
+  "/api/auth/login/route": "app/api/auth/login/route.js",
+  "/api/qr/[id]/route": "app/api/qr/[id]/route.js",
+  "/api/qr/validate/route": "app/api/qr/validate/route.js",
+  "/api/signin/route": "app/api/signin/route.js",
+  "/api/auth/signin/route": "app/api/auth/signin/route.js",
+  "/api/employees/[id]/route": "app/api/employees/[id]/route.js",
+  "/api/qr/route": "app/api/qr/route.js",
+  "/page": "app/page.js",
+  "/scan/[code]/page": "app/scan/[code]/page.js",
+  "/employee/page": "app/employee/page.js",
+  "/employee/[qrCode]/page": "app/employee/[qrCode]/page.js"
+}
